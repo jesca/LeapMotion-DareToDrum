@@ -35,6 +35,10 @@
       	margin-top:6%;
 
       }
+      .arrow {
+        margin-top:70px;
+        margin-left:70px;
+   }
       #app {
         position: absolute;
         width: 100%;
@@ -49,16 +53,19 @@
 
       }
 
-      #app #logo {
-      	margin-right: 0%;
+     #logo {
+        margin-top:0px;
       	margin-bottom:5px;
+
+
+
       }
-      #app h2 {
+      h2 {
       	color:white;
       	text-align: center;
       	font-family: Offside;
       }
-      #app h3 {
+      h3 {
       	color:white;
       	margin-top: 0px;
       	margin-right:30px;
