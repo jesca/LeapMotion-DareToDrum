@@ -1,0 +1,120 @@
+
+<html>
+<link href='http://fonts.googleapis.com/css?family=Offside' rel='stylesheet' type='text/css'>
+<script src="m.js"></script>
+<script src="main.js"></script>
+<link href="mm.css" rel="stylesheet">
+<link href="animate.css" rel="stylesheet">
+  <head>
+    <title>Leap</title>
+    </head>
+<body background="rain-wallpaper.jpg">
+
+
+    <div id="app" class="">
+<div class="container">
+          <img class="logo" id = "logo" src="logo.png">          
+</img>  <h3 id = "hi">POINTS:</h3></container>
+
+            <img class="drum1" src="d2dbig.png">
+            <img class="drum2" src="d2dbigright.png">
+
+      <div id="command" style="center">hi</div>
+      <div id="scene">
+        <div id="finger" class="cube finger">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+        <div id="sphere" class="cube sphere">
+          <div class="face tp"></div>
+          <div class="face lt"></div>
+          <div class="face rt"></div>
+          <div class="face ft"></div>
+          <div class="face bk"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+</script>
+
+
+  <script>
+
+
+function t(){
+$('#logo').addClass('animated bounceOutLeft');}
+
+
+
+    function move(node, posX, posY, posZ, rotX, rotY, rotZ) {
+      var style = node.style;
+      style.transform =
+      style.webkitTransform = 'translate3d(' + posX + 'px, ' + posY + 'px, ' + posZ + 'px) ' +
+                              'rotate3d(1, 0, 0, ' + rotX + 'deg) rotate3d(0, 0, 1, ' + rotZ + 'deg)';
+    }
+
+    function getNode(id, templateNode) {
+      var node  = pool[id];
+
+      if (!node) {
+        node  = templateNode.cloneNode(true);
+        node.id = id;
+        node.style.backgroundColor = randomColor();
+
+        scene.appendChild(node);
+        pool[id] = node;
+      }
+
+      return node;
+    }
+
+    function randomColor() {
+      return '#' + Math.floor(Math.random() * 0x1000000).toString(16);
+    }
+
+    var app = document.getElementById('app');
+    var scene = document.getElementById('scene');
+    var sphereTemplate = document.getElementById('sphere');
+    var fingerTemplate = document.getElementById('finger');
+
+    var pool = {};
+
+    Leap.loop(function(frame) {
+      var ids = {};
+      var hands = frame.hands;
+      var pointables = frame.pointables;
+
+     
+
+      for (var i = 0, pointable; pointable = pointables[i++];) {
+        var posX = (pointable.tipPosition[0] * 3);
+        var posY = (pointable.tipPosition[2] * 3) - 200;
+        var posZ = (pointable.tipPosition[1] * 3) - 400;
+        var dirX = -(pointable.direction[1] * 90);
+        var dirY = -(pointable.direction[2] * 90);
+        var dirZ = (pointable.direction[0] * 90);
+
+        node = getNode(pointable.id, fingerTemplate);
+
+        move(node, posX, posY, posZ, dirX, dirY, dirZ);
+
+        ids[pointable.id] = true;
+      }
+
+      for (var id in pool) {
+        if (!ids[id]) {
+          scene.removeChild(pool[id]);
+          delete pool[id];
+        }
+      }
+
+  
+    });
+
+  </script>
+</html>
