@@ -13,7 +13,7 @@
 
     <div id="app" class="">
    <img class="logo" id = "logo" src="logo.png"></img>   
- <img id="arrow" class="arrow" src="r.png">
+ <img id="arrow" class="arrow animate slideInDown"></img>
     <h3 id="pts">POINTS: </h3>
 
             <img class="drum1" src="d2dbig.png">
@@ -44,18 +44,41 @@
 
 
   <script>
-function state() {
-  this.points=0;
+  var next=true;
+  var totalpoints=0;
+
+  var types=
+  [
+{
+  "name": "right",
+  "type":"single",
+  "points":"1"
+
+  },
+  {
+  "name":"left",
+  "type":"single",
+  "points":"1"
+  },
+  {
+  "name":"both",
+  "type":"double",
+  "points":"2"
+  }
+];
+
+
+
+
+function updatepoint(x){
+  totalpoints +=x;
+
+document.getElementById("pts").innerHTML="POINTS: " + totalpoints + "";
 }
-
-
-function updatepoint(p){
-document.getElementById("pts").innerHTML="POINTS: " + p + "";
-}
-
-function arrow() {
-  $('#arrow').addClass('animated slideInDown');
-
+// Returns a random integer between min and max
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt() {
+  return Math.floor((Math.random()*3));
 }
 
     function move(node, posX, posY, posZ, rotX, rotY, rotZ) {
@@ -91,13 +114,43 @@ function arrow() {
 
     var pool = {};
 
+function correct(curarrow) {
+}
+
+
+function initialize() {
+
+      /*initalize command 
+      if user strikes right/left, add point
+      else, you get 2 seconds until next command (lose points?)
+      stopwhen you reach 100 seconds? time limit?
+*/
+if (next==true) {
+var curarrow=types[getRandomInt()];
+
+console.log(curarrow);
+
+      if (curarrow.name=="right") {
+      
+document.getElementById("arrow").src="r.png"
+
+    }
+    else {
+       document.getElementById("arrow").src="l.png";
+    }
+    next=false;
+  }
+  
+}
+
+
+
     Leap.loop(function(frame) {
       var ids = {};
       var hands = frame.hands;
       var pointables = frame.pointables;
 
-     
-
+      initialize();
       for (var i = 0, pointable; pointable = pointables[i++];) {
         var posX = (pointable.tipPosition[0] * 3);
         var posY = (pointable.tipPosition[2] * 3) - 200;

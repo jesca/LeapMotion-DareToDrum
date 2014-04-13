@@ -1,0 +1,19 @@
+[
+{
+	"name": "right",
+	"type":"single",
+	"points":"1"
+
+	},
+	{
+	"name":"left",
+	"type":"single",
+	"points":"1"
+	},
+	{
+	"name":"both",
+	"type":"double",
+	"points":"2"
+	}
+
+]
